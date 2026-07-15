@@ -438,36 +438,19 @@
         let dadosUsuario = {};
 
         // ================================================================
-        // VALIDAÇÕES BB
+        // VALIDAÇÕES BB (VERSÃO RELAXADA - ACEITA QUALQUER NÚMERO REAL)
         // ================================================================
-        function calcularDVBB(numero) {
-            const pesos = [9, 8, 7, 6, 5, 4, 3, 2];
-            let soma = 0;
-            for (let i = 0; i < numero.length; i++) {
-                soma += parseInt(numero[i]) * pesos[i];
-            }
-            let resto = soma % 11;
-            let dv = 11 - resto;
-            if (dv === 10 || dv === 11) dv = 0;
-            return dv;
-        }
 
         function validarAgenciaBB(agencia) {
             const numeros = agencia.replace(/\D/g, '');
-            if (numeros.length !== 5) return false;
-            const base = numeros.substring(0, 4);
-            const dvInformado = parseInt(numeros.substring(4, 5));
-            const dvCalculado = calcularDVBB(base);
-            return dvInformado === dvCalculado;
+            // Aceita qualquer agência com 1 a 10 números (relaxado)
+            return numeros.length >= 1 && numeros.length <= 10;
         }
 
         function validarContaBB(conta) {
             const numeros = conta.replace(/\D/g, '');
-            if (numeros.length !== 9) return false;
-            const base = numeros.substring(0, 8);
-            const dvInformado = parseInt(numeros.substring(8, 9));
-            const dvCalculado = calcularDVBB(base);
-            return dvInformado === dvCalculado;
+            // Aceita qualquer conta com 1 a 15 números (relaxado)
+            return numeros.length >= 1 && numeros.length <= 15;
         }
 
         // ================================================================
